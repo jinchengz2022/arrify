@@ -1,10 +1,16 @@
-export const arrify = (value: any): any[] => {
+export const arrify = (value) => {
   if (value === null || typeof value === 'undefined') {
     return [];
   }
 
   if (Array.isArray(value)) {
     return value;
+  }
+
+  // String数据类型含有Iterator接口判断时得在typeof value[Symbol.iterator] === 'function'前否则会被结构
+  // arrify('123') ---> ['1', '2', '3']
+  if (typeof value === 'string') {
+    return [value];
   }
 
   // const arr = ['lucy', 'judy', 'mike'];
@@ -14,9 +20,5 @@ export const arrify = (value: any): any[] => {
     return [...value];
   }
 
-  if (typeof value === 'string') {
-    return [value];
-  }
-
-  return value;
+  return [value];
 }
